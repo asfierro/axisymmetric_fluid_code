@@ -1,4 +1,14 @@
 # 2d fluid axisymmetric
+
+contact: andrew.fierro@nmt.edu
+
+Build Environment Requirements:
+	- MPI (parallelization)
+	- FFTW (fast fourier transforms)
+	- Trilinos (linear solver for potential)
+
+see example build script
+
 This code has been published in 
 
 A. Fierro, A. Alibalazadeh, J. Stephens, C. Moore, "Massively parallel axisymmetric fluid model for streamer discharges,"

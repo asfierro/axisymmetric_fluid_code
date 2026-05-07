@@ -31,7 +31,7 @@
 #include "photoionization.h"
 
 
-
+// Teunissen dissertation
 double psi(double a, double b)
 {
 	//return std::max(0, std::min(1.0,((2.0+x)/6.0), x));

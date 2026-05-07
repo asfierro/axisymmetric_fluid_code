@@ -1,0 +1,46 @@
+define voltage = 15000
+define x_size = 256
+define y_size = 256
+define photoionization_method = fft
+voltage mode = DC
+
+define species name = e- type = electron charge = -1.602e-19 transport_data = file mobility = transport_data/air/mu_complete.dat diffusion = transport_data/air/diffusion.dat
+define species name = o2+ type = ion charge = 1.602e-19 transport_data = fixed mobility = 0.0 diffusion = 0.0
+define species name = n2+ type = ion charge = 1.602e-19 transport_data = fixed mobility = 0.0 diffusion = 0.0
+define species name = n4+ type = ion charge = 1.602e-19 transport_data = fixed mobility = 0.0 diffusion = 0.0
+define species name = o4+ type = ion charge = 1.602e-19 transport_data = fixed mobility = 0.0 diffusion = 0.0
+define species name = n2 type = neutral charge = 0.0 transport_data = fixed mobility = 0.0 diffusion = 0.0
+define species name = o2 type = neutral charge = 0.0 transport_data = fixed mobility = 0.0 diffusion = 0.0
+define species name = o2- type = negative_ion charge = -1.602e-19 transport_data = fixed mobility = 0.0 diffusion = 0.0
+
+define gain_reaction reactants = e-,n2 products = e-,n2+ name = n2_ionization reaction_data = file reaction_file = reaction_data/air/ionization_n2.dat
+define gain_reaction reactants = e-,o2 products = e-,o2+ name = o2_ionization reaction_data = file reaction_file = reaction_data/air/ionization_o2.dat
+define gain_reaction reactants = e-,o2,o2 products = o2- name = gain_o2_o2_e_attachment reaction_data = fixed reaction_rate = 1.0e-45
+define loss_reaction reactants = e-,o2,o2 products = e- name = loss_o2_o2_e_attachment reaction_data = fixed reaction_rate = 1.0e-45
+define gain_reaction reactants = e-,n2,o2 products = o2- name = gain_n2_o2_e_attachment reaction_data = fixed reaction_rate = 1.56e-45
+define loss_reaction reactants = e-,n2,o2 products = e- name = loss_n2_o2_e_attachment reaction_data = fixed reaction_rate = 1.56e-45
+define loss_reaction reactants = e-,e-,n2+ products = e-,n2+ name = loss_e-_n2+_recombination reaction_data = fixed reaction_rate = 0.1e-42
+define loss_reaction reactants = e-,e-,o2+ products = e-,o2+ name = loss_e-_o2+_recombination reaction_data = fixed reaction_rate = 0.1e-42
+define loss_reaction reactants = e-,o2,o2+ products = e-,o2+ name = loss_e-_o2+_o2_recombination reaction_data = fixed reaction_rate = 3e-45	
+define loss_reaction reactants = e-,n2,o2+ products = e-,o2+ name = loss_e-_o2+_n2_recombination reaction_data = fixed reaction_rate = 3e-45
+define loss_reaction reactants = e-,n2,n2+ products = e-,n2+ name = loss_e-_o2+_n2_recombination reaction_data = fixed reaction_rate = 3e-45
+define loss_reaction reactants = e-,o2,n2+ products = e-,n2+ name = loss_e-_n2+_o2_recombination reaction_data = fixed reaction_rate = 3e-45
+define gain_reaction reactants = n2+,n2,n2 products = n4+ name = n4+_gain reaction_data = fixed reaction_rate = 5.0e-43
+define loss_reaction reactants = n2+,n2,n2 products = n2+ name = n4+_loss reaction_data = fixed reaction_rate = 5.0e-43
+define gain_reaction reactants = o2+,o2,o2 products = o4+ name = o4+_gain reaction_data = fixed reaction_rate = 2.4e-43
+define loss_reaction reactants = o2+,o2,o2 products = o2+ name = o4+_loss reaction_data = fixed reaction_rate = 2.4e-43
+define loss_reaction reactants = e-,n4+ products = e-,n4+ name = n4+_recombination reaction_data = fixed reaction_rate = 1.75e-14
+define loss_reaction reactants = e-,o4+ products = e-,o4+ name = o4+_recombination reaction_data = fixed reaction_rate = 2.75e-14
+
+initial density species = n2 shape = uniform value = 1.95e25
+initial density species = o2 shape = uniform value = 5.5e24
+initial density species = e- shape = gaussian peak = 5e18 background = 0.0 x_center = 1e-3 y_center = 0.0 sigma = 1.6e-7
+initial density species = o2+ shape = gaussian peak = 0.78e18 background = 0.0 x_center = 1e-3 y_center = 0.0 sigma = 1.6e-7
+initial density species = n2+ shape = gaussian peak = 0.22e18 background = 0.0 x_center = 1e-3 y_center = 0.0 sigma = 1.6e-7
+
+define output_directory = /users/asfierro/carc-scratch/photo_test/
+restart step = -1
+output stride = 500
+final simulation time = 5e-9
+status stride = 10
+

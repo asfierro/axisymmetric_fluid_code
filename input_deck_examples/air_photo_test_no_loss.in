@@ -1,0 +1,40 @@
+define voltage = 30000
+define x_size = 2500
+define y_size = 1024
+define photoionization_method = none
+voltage mode = DC
+
+define species name = e- type = electron charge = -1.602e-19 transport_data = file mobility = transport_data/air/mobility.dat diffusion = transport_data/air/diffusion.dat
+define species name = o2+ type = ion charge = 1.602e-19 transport_data = fixed mobility = 0.0 diffusion = 0.0
+define species name = n2+ type = ion charge = 1.602e-19 transport_data = fixed mobility = 0.0 diffusion = 0.0
+define species name = n4+ type = ion charge = 1.602e-19 transport_data = fixed mobility = 0.0 diffusion = 0.0
+define species name = o4+ type = ion charge = 1.602e-19 transport_data = fixed mobility = 0.0 diffusion = 0.0
+define species name = n2 type = neutral charge = 0.0 transport_data = fixed mobility = 0.0 diffusion = 0.0
+define species name = o2 type = neutral charge = 0.0 transport_data = fixed mobility = 0.0 diffusion = 0.0
+define species name = o2- type = negative_ion charge = -1.602e-19 transport_data = fixed mobility = 0.0 diffusion = 0.0
+
+define gain_reaction reactants = e-,n2 products = e-,n2+ name = n2_ionization reaction_data = file reaction_file = reaction_data/air/ionization_n2.dat
+define gain_reaction reactants = e-,o2 products = e-,o2+ name = o2_ionization reaction_data = file reaction_file = reaction_data/air/ionization_o2.dat
+define gain_reaction reactants = e-,o2,o2 products = o2- name = gain_o2_o2_e_attachment reaction_data = fixed reaction_rate = 4.76e-43
+define loss_reaction reactants = e-,o2,o2 products = e- name = loss_o2_o2_e_attachment reaction_data = fixed reaction_rate = 4.76e-43
+define gain_reaction reactants = e-,n2,o2 products = o2- name = gain_n2_o2_e_attachment reaction_data = fixed reaction_rate = 7.39e-45
+define loss_reaction reactants = e-,n2,o2 products = e- name = loss_n2_o2_e_attachment reaction_data = fixed reaction_rate = 7.39e-45
+define loss_reaction reactants = e-,e-,n2+ products = e-,n2+ name = loss_e-_n2+_recombination reaction_data = fixed reaction_rate = 7.19e-39
+define loss_reaction reactants = e-,e-,o2+ products = e-,o2+ name = loss_e-_o2+_recombination reaction_data = fixed reaction_rate = 7.19e-39
+define loss_reaction reactants = e-,o2,o2+ products = e-,o2+ name = loss_e-_o2+_o2_recombination reaction_data = fixed reaction_rate = 2.5e-41
+define loss_reaction reactants = e-,n2,o2+ products = e-,o2+ name = loss_e-_o2+_n2_recombination reaction_data = fixed reaction_rate = 2.5e-41
+define loss_reaction reactants = e-,n2,n2+ products = e-,n2+ name = loss_e-_o2+_n2_recombination reaction_data = fixed reaction_rate = 2.5e-41
+define loss_reaction reactants = e-,o2,n2+ products = e-,n2+ name = loss_e-_n2+_o2_recombination reaction_data = fixed reaction_rate = 2.5e-41
+
+initial density species = n2 shape = uniform value = 1.95e25
+initial density species = o2 shape = uniform value = 5.5e24
+initial density species = e- shape = gaussian peak = 5e18 background = 0.0 x_center = 2e-3 y_center = 0.0 sigma = 2e-7
+initial density species = o2+ shape = gaussian peak = 0.78e18 background = 0.0 x_center = 2e-3 y_center = 0.0 sigma = 2e-7
+initial density species = n2+ shape = gaussian peak = 0.22e18 background = 0.0 x_center = 2e-3 y_center = 0.0 sigma = 2e-7
+
+define output_directory = /users/asfierro/carc-scratch/air_streamer_5um_no_photons/
+restart step = -1
+output stride = 5000
+final simulation time = 40e-9
+status stride = 10
+

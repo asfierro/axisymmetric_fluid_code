@@ -1,0 +1,16 @@
+<ParameterList name="MueLu">
+	<Parameter name="verbosity" type="string" value="high"/>
+
+ 	<Parameter name="max levels" type="int" value="4"/>
+ 	<Parameter name="coarse: max size" type="int" value="10"/>
+ 	<Parameter name="coarse: type" type="string" value="RELAXATION"/>
+	<ParameterList name="coarse: params">
+ 		<Parameter name="relaxation: type" type="string" value="Jacobi"/>
+ 		<Parameter name="relaxation: sweeps" type="int" value="100"/>
+	</ParameterList>
+
+ 	<Parameter name="multigrid algorithm" type="string" value="pg"/>
+ 	<Parameter name="problem: symmetric" type="bool" value="false"/>
+	<Parameter name="problem: type" type="string" value="Poisson-2D"/>
+
+</ParameterList>
